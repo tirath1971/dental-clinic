@@ -1,5 +1,6 @@
 import { Check } from 'lucide-react';
 import { cn } from '@/lib/cn';
+import { useI18n } from '@/i18n/context';
 
 interface StepIndicatorProps {
   steps: string[];
@@ -9,8 +10,9 @@ interface StepIndicatorProps {
 
 /** Horizontal progress indicator for the booking wizard. */
 export function StepIndicator({ steps, current }: StepIndicatorProps) {
+  const { t } = useI18n();
   return (
-    <ol className="flex items-center gap-1.5 sm:gap-2" aria-label="Booking progress">
+    <ol className="flex items-center gap-1.5 sm:gap-2" aria-label={t('wizard.progress')}>
       {steps.map((label, i) => {
         const done = i < current;
         const active = i === current;

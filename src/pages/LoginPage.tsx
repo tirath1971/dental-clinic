@@ -6,13 +6,16 @@ import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Logo } from '@/components/ui/Logo';
+import { LanguageToggle } from '@/components/ui/LanguageToggle';
 import { useAuth } from '@/hooks/useAuth';
+import { useI18n } from '@/i18n/context';
 
 interface LocationState {
   from?: string;
 }
 
 export function LoginPage() {
+  const { t } = useI18n();
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,7 +29,7 @@ export function LoginPage() {
     e.preventDefault();
     // Mock gate: accept any non-empty credentials.
     if (!email.trim() || !password.trim()) {
-      setError('Please enter both an email and a password.');
+      setError(t('login.error'));
       return;
     }
     login(email);
@@ -47,9 +50,10 @@ export function LoginPage() {
         className="relative w-full max-w-md"
       >
         <div className="mb-6 flex flex-col items-center gap-3 text-center">
-          <Link to="/" aria-label="Shining Pearls Dental Clinic — home">
+          <Link to="/" aria-label={`${t('brand.name')} — home`}>
             <Logo />
           </Link>
+          <LanguageToggle />
         </div>
 
         <Card className="p-7 sm:p-8">
@@ -58,19 +62,17 @@ export function LoginPage() {
               <LockKeyhole className="h-6 w-6" aria-hidden="true" />
             </span>
             <div>
-              <h1 className="text-xl font-bold text-slate-900">Staff sign in</h1>
-              <p className="text-sm text-slate-500">
-                Access the Shining Pearls clinic dashboard.
-              </p>
+              <h1 className="text-xl font-bold text-slate-900">{t('login.title')}</h1>
+              <p className="text-sm text-slate-500">{t('login.subtitle')}</p>
             </div>
           </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
             <Input
-              label="Work email"
+              label={t('login.email')}
               type="email"
               autoComplete="username"
-              placeholder="you@shiningpearls.dental"
+              placeholder="you@lumidental.clinic"
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -79,7 +81,7 @@ export function LoginPage() {
               required
             />
             <Input
-              label="Password"
+              label={t('login.password')}
               type="password"
               autoComplete="current-password"
               placeholder="••••••••"
@@ -99,15 +101,14 @@ export function LoginPage() {
 
             <Button type="submit" size="lg" className="mt-1 w-full">
               <LogIn className="h-4 w-4" aria-hidden="true" />
-              Sign in
+              {t('login.signIn')}
             </Button>
           </form>
 
           <div className="mt-5 flex items-start gap-2 rounded-xl border border-clinical-100 bg-clinical-50/60 px-3.5 py-3 text-xs text-clinical-700">
             <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
             <span>
-              <strong>Demo only:</strong> this is a mock gate — any email and
-              password will sign you in. No real authentication is performed.
+              <strong>{t('login.demoLabel')}</strong> {t('login.demoText')}
             </span>
           </div>
         </Card>
@@ -118,7 +119,7 @@ export function LoginPage() {
             className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 transition-colors hover:text-clinical-700"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            Back to website
+            {t('common.backToWebsite')}
           </Link>
         </div>
       </motion.div>

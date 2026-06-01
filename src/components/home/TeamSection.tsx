@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { DoctorCard } from './DoctorCard';
 import { DOCTORS } from '@/data/seed';
+import { useI18n } from '@/i18n/context';
 
 const container = {
   hidden: {},
@@ -9,13 +10,14 @@ const container = {
 };
 
 export function TeamSection() {
+  const { t } = useI18n();
   return (
     <section id="team" className="scroll-mt-24 bg-white/60 py-16 lg:py-24">
       <div className="section">
         <SectionHeading
-          eyebrow="Meet the team"
-          title="Specialists you'll feel at ease with"
-          description="A friendly, highly-qualified team — each a specialist in their field, all committed to gentle, honest care."
+          eyebrow={t('team.eyebrow')}
+          title={t('team.title')}
+          description={t('team.desc')}
         />
         <motion.div
           variants={container}

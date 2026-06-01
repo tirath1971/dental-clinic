@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { HeroTooth } from '@/components/three/HeroTooth';
 import { CLINIC } from '@/data/seed';
+import { useI18n } from '@/i18n/context';
 
 const container = {
   hidden: {},
@@ -15,6 +16,7 @@ const item = {
 };
 
 export function Hero() {
+  const { t } = useI18n();
   return (
     <section className="relative overflow-hidden">
       {/* Layered ambient glows for depth (transform/opacity only). */}
@@ -36,7 +38,7 @@ export function Hero() {
           <motion.div variants={item}>
             <Badge tone="mint">
               <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-              Gentle dentistry, brilliant smiles
+              {t('hero.badge')}
             </Badge>
           </motion.div>
 
@@ -44,25 +46,24 @@ export function Hero() {
             variants={item}
             className="text-balance text-4xl font-bold leading-[1.05] tracking-tightest text-slate-900 sm:text-5xl lg:text-6xl"
           >
-            Your brightest, healthiest{' '}
+            {t('hero.titlePrefix')}
             <span className="bg-gradient-to-r from-clinical-500 to-clinical-700 bg-clip-text text-transparent">
-              smile
-            </span>{' '}
-            starts here.
+              {t('hero.titleHighlight')}
+            </span>
+            {t('hero.titleSuffix')}
           </motion.h1>
 
           <motion.p
             variants={item}
             className="max-w-xl text-pretty text-lg leading-relaxed text-slate-500"
           >
-            {CLINIC.name} pairs modern, painless treatments with a calm, caring
-            team led by Dr. Charu Gandhi. Book online in under a minute.
+            {t('hero.subtitle', { clinic: CLINIC.name })}
           </motion.p>
 
           <motion.div variants={item} className="flex flex-wrap items-center gap-3">
             <Button as="link" to="/book" size="lg">
               <CalendarPlus className="h-5 w-5" aria-hidden="true" />
-              Book Appointment
+              {t('common.bookAppointment')}
             </Button>
             <Button
               as="link"
@@ -70,7 +71,7 @@ export function Hero() {
               variant="secondary"
               size="lg"
             >
-              Explore services
+              {t('hero.explore')}
             </Button>
           </motion.div>
 
@@ -84,7 +85,7 @@ export function Hero() {
               </span>
               <div>
                 <dt className="text-lg font-bold text-slate-900">4.9/5</dt>
-                <dd className="text-xs text-slate-500">1,200+ reviews</dd>
+                <dd className="text-xs text-slate-500">{t('hero.reviews')}</dd>
               </div>
             </div>
             <div className="flex items-center gap-2.5">
@@ -92,8 +93,8 @@ export function Hero() {
                 <ShieldCheck className="h-4 w-4" aria-hidden="true" />
               </span>
               <div>
-                <dt className="text-lg font-bold text-slate-900">18+ yrs</dt>
-                <dd className="text-xs text-slate-500">trusted care</dd>
+                <dt className="text-lg font-bold text-slate-900">{t('hero.trustedValue')}</dt>
+                <dd className="text-xs text-slate-500">{t('hero.trusted')}</dd>
               </div>
             </div>
             <a

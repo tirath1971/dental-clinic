@@ -1,12 +1,13 @@
 import { useMemo } from 'react';
 import { Card } from '@/components/ui/Card';
 import { toISODate } from '@/lib/booking';
+import { useI18n } from '@/i18n/context';
 import type { Appointment } from '@/types';
-
-const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 /** Lightweight SVG-free bar chart: appointments per day for the current week. */
 export function WeeklyChart({ appointments }: { appointments: Appointment[] }) {
+  const { t } = useI18n();
+  const DAY_LABELS = t('chart.daysShort').split(',');
   const { days, max } = useMemo(() => {
     // Build the 7 days of the current week, starting Sunday.
     const today = new Date();
@@ -21,7 +22,7 @@ export function WeeklyChart({ appointments }: { appointments: Appointment[] }) {
       const count = appointments.filter(
         (a) => a.date === iso && a.status !== 'cancelled',
       ).length;
-      return { iso, label: DAY_LABELS[i], count, isToday: iso === toISODate(today) };
+      return { iso, index: i, count, isToday: iso === toISODate(today) };
     });
     return { days: week, max: Math.max(1, ...week.map((d) => d.count)) };
   }, [appointments]);
@@ -30,10 +31,10 @@ export function WeeklyChart({ appointments }: { appointments: Appointment[] }) {
     <Card className="p-5 sm:p-6">
       <div className="mb-5 flex items-baseline justify-between">
         <h2 className="font-display text-base font-bold text-slate-900">
-          Appointments this week
+          {t('dash.weekChart')}
         </h2>
         <span className="text-sm text-slate-400">
-          {days.reduce((sum, d) => sum + d.count, 0)} total
+          {t('dash.total', { n: days.reduce((sum, d) => sum + d.count, 0) })}
         </span>
       </div>
 
@@ -57,7 +58,7 @@ export function WeeklyChart({ appointments }: { appointments: Appointment[] }) {
                   : 'text-xs font-medium text-slate-400'
               }
             >
-              {day.label}
+              {DAY_LABELS[day.index]}
             </span>
           </div>
         ))}

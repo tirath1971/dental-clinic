@@ -1,12 +1,23 @@
-# Shining Pearls Dental Clinic
+# Lumi Dental Clinic
 
 A clean, clinical booking + patient-facing website with a staff dashboard, built
 as a runnable front-end demo. Bookings are persisted to **localStorage** (a mock
-backend) so the whole flow works with no server.
+backend) so the whole flow works with no server. The entire UI is **bilingual
+(English / Spanish)** with an in-page language switch.
 
 > Palette: white / off-white surfaces, clinical blue (`#0EA5E9` → `#2563EB`),
 > soft mint accent (`#5EEAD4`), slate-700 text. Display font **Sora**, body
-> **Inter**. Pearl/shine motif throughout.
+> **Inter**. Glossy "lumi" shine motif throughout.
+
+## 🌐 Internationalization (EN / ES)
+
+A lightweight custom i18n layer lives in [`src/i18n/`](src/i18n): `context.tsx`
+provides `useI18n()` (`t(key, vars)` + `lang`/`setLang`), and `translations.ts`
+holds the flat `en` / `es` dictionaries (including service, doctor and review
+copy). The choice persists to `localStorage` and sets `<html lang>`. Toggle it
+with the **EN/ES** switch in the navbar (and on the login/dashboard screens) —
+visible on mobile and desktop. Dates/times format per-locale. To add a language,
+add a dictionary in `translations.ts` and a code to the toggle.
 
 ---
 

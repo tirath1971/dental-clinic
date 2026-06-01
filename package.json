@@ -1,9 +1,9 @@
 {
-  "name": "shining-pearls-dental",
+  "name": "lumi-dental-clinic",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Shining Pearls Dental Clinic — booking + patient-facing site with a clinic dashboard.",
+  "description": "Lumi Dental Clinic — bilingual (EN/ES) booking + patient-facing site with a clinic dashboard.",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",

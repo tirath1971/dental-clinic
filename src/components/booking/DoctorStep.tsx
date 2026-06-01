@@ -1,6 +1,7 @@
 import { Award, Check } from 'lucide-react';
 import { DOCTORS } from '@/data/seed';
 import { asset } from '@/lib/asset';
+import { useI18n } from '@/i18n/context';
 import { cn } from '@/lib/cn';
 
 interface DoctorStepProps {
@@ -9,10 +10,11 @@ interface DoctorStepProps {
 }
 
 export function DoctorStep({ value, onSelect }: DoctorStepProps) {
+  const { t } = useI18n();
   return (
     <fieldset className="flex flex-col gap-5">
       <legend className="text-xl font-bold text-slate-900">
-        Choose your dentist
+        {t('step.dentist.title')}
       </legend>
       <div className="grid gap-3 sm:grid-cols-2">
         {DOCTORS.map((doctor) => {
@@ -40,11 +42,11 @@ export function DoctorStep({ value, onSelect }: DoctorStepProps) {
               <span className="flex flex-col gap-0.5">
                 <span className="font-semibold text-slate-900">{doctor.name}</span>
                 <span className="text-sm font-medium text-clinical-600">
-                  {doctor.specialty}
+                  {t(`doctors.${doctor.id.replace('doc-', '')}.specialty`)}
                 </span>
                 <span className="mt-1 inline-flex items-center gap-1.5 text-xs text-slate-500">
                   <Award className="h-3.5 w-3.5 text-mint-500" aria-hidden="true" />
-                  {doctor.yearsExperience} years experience
+                  {t('team.yearsExp', { n: doctor.yearsExperience })}
                 </span>
               </span>
               {selected && (

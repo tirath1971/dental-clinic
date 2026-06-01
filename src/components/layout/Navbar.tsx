@@ -3,16 +3,19 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { CalendarPlus, Menu, X } from 'lucide-react';
 import { Logo } from '@/components/ui/Logo';
 import { Button } from '@/components/ui/Button';
+import { LanguageToggle } from '@/components/ui/LanguageToggle';
+import { useI18n } from '@/i18n/context';
 import { cn } from '@/lib/cn';
 
 const LINKS = [
-  { label: 'Services', to: '/#services' },
-  { label: 'Doctors', to: '/#team' },
-  { label: 'Results', to: '/#results' },
-  { label: 'Contact', to: '/#contact' },
+  { key: 'nav.services', to: '/#services' },
+  { key: 'nav.doctors', to: '/#team' },
+  { key: 'nav.results', to: '/#results' },
+  { key: 'nav.contact', to: '/#contact' },
 ];
 
 export function Navbar() {
+  const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const location = useLocation();
@@ -37,7 +40,7 @@ export function Navbar() {
       )}
     >
       <nav className="section flex h-16 items-center justify-between gap-4" aria-label="Primary">
-        <Link to="/" aria-label="Shining Pearls Dental Clinic — home">
+        <Link to="/" aria-label={`${t('brand.name')} — home`}>
           <Logo />
         </Link>
 
@@ -48,34 +51,39 @@ export function Navbar() {
                 href={link.to}
                 className="rounded-lg px-3.5 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-pearl-200 hover:text-clinical-700"
               >
-                {link.label}
+                {t(link.key)}
               </a>
             </li>
           ))}
         </ul>
 
-        <div className="hidden items-center gap-2 md:flex">
-          <NavLink
-            to="/dashboard"
-            className="rounded-lg px-3.5 py-2 text-sm font-medium text-slate-500 transition-colors hover:text-clinical-700"
-          >
-            Staff
-          </NavLink>
-          <Button as="link" to="/book" size="sm">
-            <CalendarPlus className="h-4 w-4" aria-hidden="true" />
-            Book Appointment
-          </Button>
-        </div>
+        <div className="flex items-center gap-2">
+          {/* Always visible on every breakpoint. */}
+          <LanguageToggle />
 
-        <button
-          type="button"
-          className="grid h-10 w-10 place-items-center rounded-lg text-slate-700 transition-colors hover:bg-pearl-200 md:hidden"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+          <div className="hidden items-center gap-2 md:flex">
+            <NavLink
+              to="/dashboard"
+              className="rounded-lg px-3.5 py-2 text-sm font-medium text-slate-500 transition-colors hover:text-clinical-700"
+            >
+              {t('nav.staff')}
+            </NavLink>
+            <Button as="link" to="/book" size="sm">
+              <CalendarPlus className="h-4 w-4" aria-hidden="true" />
+              {t('common.bookAppointment')}
+            </Button>
+          </div>
+
+          <button
+            type="button"
+            className="grid h-10 w-10 place-items-center rounded-lg text-slate-700 transition-colors hover:bg-pearl-200 md:hidden"
+            aria-label={open ? t('nav.closeMenu') : t('nav.openMenu')}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </nav>
 
       {open && (
@@ -87,17 +95,17 @@ export function Navbar() {
                   href={link.to}
                   className="block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-pearl-200"
                 >
-                  {link.label}
+                  {t(link.key)}
                 </a>
               </li>
             ))}
             <li className="mt-2 flex flex-col gap-2 border-t border-pearl-300 pt-3">
               <Button as="link" to="/dashboard" variant="secondary" size="sm">
-                Staff Dashboard
+                {t('nav.staffDashboard')}
               </Button>
               <Button as="link" to="/book" size="sm">
                 <CalendarPlus className="h-4 w-4" aria-hidden="true" />
-                Book Appointment
+                {t('common.bookAppointment')}
               </Button>
             </li>
           </ul>

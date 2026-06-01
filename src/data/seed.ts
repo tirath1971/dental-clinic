@@ -67,7 +67,7 @@ export const DOCTORS: Doctor[] = [
     id: 'doc-charu',
     name: 'Dr. Charu Gandhi',
     specialty: 'Lead Dentist · Cosmetic & Implantology',
-    bio: 'Founder of Shining Pearls. Dr. Gandhi blends meticulous cosmetic work with a calm, reassuring chair-side manner patients trust.',
+    bio: 'Founder of Lumi Dental. Dr. Gandhi blends meticulous cosmetic work with a calm, reassuring chair-side manner patients trust.',
     photo: '/doctors/charu-gandhi.svg',
     yearsExperience: 18,
   },
@@ -181,10 +181,10 @@ export const DEMO_APPOINTMENTS: Appointment[] = [
 
 /** Clinic contact / hours, surfaced in the footer and dashboard. */
 export const CLINIC = {
-  name: 'Shining Pearls Dental Clinic',
+  name: 'Lumi Dental Clinic',
   tagline: 'Gentle, modern dentistry for the whole family.',
   phone: '+1 (555) 010-7890',
-  email: 'hello@shiningpearls.dental',
+  email: 'hello@lumidental.clinic',
   address: '24 Marine Drive, Suite 5, Bayside, CA 90210',
   hours: [
     { day: 'Monday – Friday', time: '9:00 AM – 6:00 PM' },

@@ -13,13 +13,20 @@ import { Card } from '@/components/ui/Card';
 import { DOCTORS, SERVICES } from '@/data/seed';
 import { createAppointment, isSlotTaken, SlotTakenError } from '@/lib/storage';
 import { validatePatient, type PatientErrors } from '@/lib/booking';
+import { useI18n } from '@/i18n/context';
 import type { Appointment, PatientInfo } from '@/types';
-
-const STEPS = ['Service', 'Dentist', 'Date & time', 'Details', 'Done'];
 
 const emptyPatient: PatientInfo = { name: '', email: '', phone: '', notes: '' };
 
 export function BookingWizard() {
+  const { t } = useI18n();
+  const STEPS = [
+    t('wizard.step.service'),
+    t('wizard.step.dentist'),
+    t('wizard.step.datetime'),
+    t('wizard.step.details'),
+    t('wizard.step.done'),
+  ];
   const [params] = useSearchParams();
 
   // Pre-select from query params (?service=… / ?doctor=…) when valid.
@@ -77,9 +84,7 @@ export function BookingWizard() {
 
     // Final guard against the slot being taken since the user selected it.
     if (isSlotTaken(doctorId, date, timeSlot)) {
-      setFormError(
-        'Sorry — that slot was just taken. Please go back and choose another time.',
-      );
+      setFormError(t('wizard.slotTaken'));
       return;
     }
 
@@ -100,11 +105,7 @@ export function BookingWizard() {
       setConfirmed(appointment);
       setStep(4);
     } catch (err) {
-      setFormError(
-        err instanceof SlotTakenError
-          ? err.message
-          : 'Something went wrong while booking. Please try again.',
-      );
+      setFormError(err instanceof SlotTakenError ? t('wizard.slotTaken') : t('wizard.error'));
     }
   }
 
@@ -198,18 +199,18 @@ export function BookingWizard() {
             className={step === 0 ? 'invisible' : ''}
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            Back
+            {t('common.back')}
           </Button>
 
           <Button onClick={next} disabled={!canAdvance}>
             {step === 3 ? (
               <>
                 <CalendarCheck className="h-4 w-4" aria-hidden="true" />
-                Confirm booking
+                {t('wizard.confirm')}
               </>
             ) : (
               <>
-                Continue
+                {t('common.continue')}
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </>
             )}

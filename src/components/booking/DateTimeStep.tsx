@@ -8,6 +8,7 @@ import {
   toISODate,
 } from '@/lib/booking';
 import { isSlotTaken } from '@/lib/storage';
+import { useI18n } from '@/i18n/context';
 import { cn } from '@/lib/cn';
 
 interface DateTimeStepProps {
@@ -18,7 +19,6 @@ interface DateTimeStepProps {
   onPickSlot: (slot: string) => void;
 }
 
-const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 const ALL_SLOTS = generateTimeSlots();
 
 export function DateTimeStep({
@@ -28,6 +28,8 @@ export function DateTimeStep({
   onPickDate,
   onPickSlot,
 }: DateTimeStepProps) {
+  const { t, locale } = useI18n();
+  const WEEKDAYS = t('cal.weekdaysShort').split(',');
   const today = useMemo(() => {
     const d = new Date();
     d.setHours(0, 0, 0, 0);
@@ -45,7 +47,7 @@ export function DateTimeStep({
   );
 
   const monthLabel = new Date(view.year, view.month, 1).toLocaleDateString(
-    undefined,
+    locale,
     { month: 'long', year: 'numeric' },
   );
 
@@ -62,7 +64,7 @@ export function DateTimeStep({
 
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="text-xl font-bold text-slate-900">Pick a date &amp; time</h2>
+      <h2 className="text-xl font-bold text-slate-900">{t('step.datetime.title')}</h2>
 
       <div className="grid gap-6 lg:grid-cols-[auto,1fr]">
         {/* Calendar */}
@@ -72,7 +74,7 @@ export function DateTimeStep({
               type="button"
               onClick={() => shiftMonth(-1)}
               disabled={!canGoPrev}
-              aria-label="Previous month"
+              aria-label={t('datetime.prevMonth')}
               className="grid h-9 w-9 place-items-center rounded-lg text-slate-600 transition-colors hover:bg-pearl-200 disabled:cursor-not-allowed disabled:opacity-40"
             >
               <ChevronLeft className="h-5 w-5" />
@@ -81,7 +83,7 @@ export function DateTimeStep({
             <button
               type="button"
               onClick={() => shiftMonth(1)}
-              aria-label="Next month"
+              aria-label={t('datetime.nextMonth')}
               className="grid h-9 w-9 place-items-center rounded-lg text-slate-600 transition-colors hover:bg-pearl-200"
             >
               <ChevronRight className="h-5 w-5" />
@@ -126,17 +128,17 @@ export function DateTimeStep({
               );
             })}
           </div>
-          <p className="mt-3 text-xs text-slate-400">Sundays &amp; past dates unavailable.</p>
+          <p className="mt-3 text-xs text-slate-400">{t('datetime.unavailable')}</p>
         </div>
 
         {/* Time slots */}
         <div>
           <h3 className="mb-3 text-sm font-semibold text-slate-700">
-            Available times
+            {t('datetime.available')}
           </h3>
           {!date ? (
             <p className="rounded-xl border border-dashed border-pearl-300 bg-pearl-100 p-6 text-center text-sm text-slate-500">
-              Select a date to see open slots.
+              {t('datetime.selectDate')}
             </p>
           ) : (
             <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
@@ -150,7 +152,7 @@ export function DateTimeStep({
                     disabled={taken}
                     onClick={() => onPickSlot(slot)}
                     aria-pressed={selected}
-                    title={taken ? 'Already booked' : undefined}
+                    title={taken ? t('datetime.booked') : undefined}
                     className={cn(
                       'rounded-xl border px-2 py-2.5 text-sm font-medium transition-[transform,box-shadow,border-color]',
                       taken &&
@@ -162,7 +164,7 @@ export function DateTimeStep({
                         'border-clinical-400 bg-gradient-to-br from-clinical-500 to-clinical-700 text-white shadow-soft',
                     )}
                   >
-                    {formatTime(slot)}
+                    {formatTime(slot, locale)}
                   </button>
                 );
               })}

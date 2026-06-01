@@ -4,37 +4,19 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Card } from '@/components/ui/Card';
 import { BeforeAfterSlider } from './BeforeAfterSlider';
 import { asset } from '@/lib/asset';
+import { useI18n } from '@/i18n/context';
 import { cn } from '@/lib/cn';
 
 interface Review {
+  id: number;
   name: string;
-  role: string;
   rating: number;
-  quote: string;
 }
 
 const REVIEWS: Review[] = [
-  {
-    name: 'Elena M.',
-    role: 'Whitening patient',
-    rating: 5,
-    quote:
-      'I was so nervous, but the team made it completely painless. My teeth are several shades brighter and I keep smiling!',
-  },
-  {
-    name: 'James T.',
-    role: 'Implant patient',
-    rating: 5,
-    quote:
-      'Dr. Gandhi explained every step. The implant feels exactly like a real tooth — best decision I have made.',
-  },
-  {
-    name: 'Priya & kids',
-    role: 'Family check-ups',
-    rating: 5,
-    quote:
-      'My children actually look forward to the dentist now. Warm, gentle and genuinely caring with little ones.',
-  },
+  { id: 1, name: 'Elena M.', rating: 5 },
+  { id: 2, name: 'James T.', rating: 5 },
+  { id: 3, name: 'Priya & kids', rating: 5 },
 ];
 
 function Stars({ rating }: { rating: number }) {
@@ -60,12 +42,13 @@ const item = {
 };
 
 export function Testimonials() {
+  const { t } = useI18n();
   return (
     <section id="results" className="section scroll-mt-24 py-16 lg:py-24">
       <SectionHeading
-        eyebrow="Smiles we're proud of"
-        title="Real results, happy patients"
-        description="See a sample transformation and hear from the people who trust us with their smiles."
+        eyebrow={t('testimonials.eyebrow')}
+        title={t('testimonials.title')}
+        description={t('testimonials.desc')}
       />
 
       <div className="mt-12 grid items-start gap-8 lg:grid-cols-2">
@@ -91,14 +74,14 @@ export function Testimonials() {
           className="flex flex-col gap-4"
         >
           {REVIEWS.map((review) => (
-            <motion.div key={review.name} variants={item}>
+            <motion.div key={review.id} variants={item}>
               <Card className="flex flex-col gap-3 p-6">
                 <div className="flex items-center justify-between">
                   <Stars rating={review.rating} />
                   <Quote className="h-5 w-5 text-clinical-200" aria-hidden="true" />
                 </div>
                 <p className="text-pretty leading-relaxed text-slate-700">
-                  “{review.quote}”
+                  “{t(`reviews.${review.id}.quote`)}”
                 </p>
                 <div className="mt-1 flex items-center gap-3">
                   <span className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-clinical-500 to-clinical-700 text-sm font-bold text-white">
@@ -106,7 +89,7 @@ export function Testimonials() {
                   </span>
                   <div className="text-sm">
                     <p className="font-semibold text-slate-900">{review.name}</p>
-                    <p className="text-slate-500">{review.role}</p>
+                    <p className="text-slate-500">{t(`reviews.${review.id}.role`)}</p>
                   </div>
                 </div>
               </Card>

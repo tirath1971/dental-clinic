@@ -3,6 +3,7 @@ import { Award } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { asset } from '@/lib/asset';
+import { useI18n } from '@/i18n/context';
 import type { Doctor } from '@/types';
 
 const item = {
@@ -11,6 +12,9 @@ const item = {
 };
 
 export function DoctorCard({ doctor }: { doctor: Doctor }) {
+  const { t } = useI18n();
+  const key = doctor.id.replace('doc-', '');
+  const firstName = doctor.name.split(' ')[1] ?? doctor.name;
   return (
     <motion.div variants={item}>
       <Card interactive className="group flex h-full flex-col overflow-hidden">
@@ -28,15 +32,19 @@ export function DoctorCard({ doctor }: { doctor: Doctor }) {
           />
           <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-clinical-700 shadow-soft backdrop-blur">
             <Award className="h-3.5 w-3.5" aria-hidden="true" />
-            {doctor.yearsExperience} yrs experience
+            {t('team.yearsExp', { n: doctor.yearsExperience })}
           </span>
         </div>
         <div className="flex flex-1 flex-col gap-3 p-5">
           <div>
             <h3 className="text-lg font-bold text-slate-900">{doctor.name}</h3>
-            <p className="text-sm font-medium text-clinical-600">{doctor.specialty}</p>
+            <p className="text-sm font-medium text-clinical-600">
+              {t(`doctors.${key}.specialty`)}
+            </p>
           </div>
-          <p className="text-sm leading-relaxed text-slate-500">{doctor.bio}</p>
+          <p className="text-sm leading-relaxed text-slate-500">
+            {t(`doctors.${key}.bio`)}
+          </p>
           <Button
             as="link"
             to={`/book?doctor=${doctor.id}`}
@@ -44,7 +52,7 @@ export function DoctorCard({ doctor }: { doctor: Doctor }) {
             size="sm"
             className="mt-auto self-start"
           >
-            Book with {doctor.name.split(' ')[1] ?? doctor.name}
+            {t('team.bookWith', { name: firstName })}
           </Button>
         </div>
       </Card>

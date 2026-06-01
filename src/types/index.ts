@@ -1,4 +1,4 @@
-/** Shared domain types for the Shining Pearls Dental app. */
+/** Shared domain types for the Lumi Dental Clinic app. */
 
 /** Identifier for the glossy 3D-style icon a service renders. */
 export type ServiceIconKey =

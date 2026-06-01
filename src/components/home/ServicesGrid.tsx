@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { ServiceCard } from './ServiceCard';
 import { SERVICES } from '@/data/seed';
+import { useI18n } from '@/i18n/context';
 
 const container = {
   hidden: {},
@@ -9,12 +10,13 @@ const container = {
 };
 
 export function ServicesGrid() {
+  const { t } = useI18n();
   return (
     <section id="services" className="section scroll-mt-24 py-16 lg:py-24">
       <SectionHeading
-        eyebrow="What we do"
-        title="Comprehensive care for every smile"
-        description="From routine check-ups to full smile makeovers, our specialists cover it all under one calm, modern roof."
+        eyebrow={t('services.eyebrow')}
+        title={t('services.title')}
+        description={t('services.desc')}
       />
       <motion.div
         variants={container}

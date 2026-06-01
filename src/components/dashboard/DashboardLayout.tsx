@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
 import { Sidebar } from './Sidebar';
+import { LanguageToggle } from '@/components/ui/LanguageToggle';
+import { useI18n } from '@/i18n/context';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -8,6 +10,7 @@ interface DashboardLayoutProps {
 
 /** Sidebar shell for the staff dashboard. */
 export function DashboardLayout({ children }: DashboardLayoutProps) {
+  const { t } = useI18n();
   const [navOpen, setNavOpen] = useState(false);
 
   return (
@@ -20,12 +23,13 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <button
             type="button"
             onClick={() => setNavOpen(true)}
-            aria-label="Open navigation"
+            aria-label={t('side.openNav')}
             className="grid h-10 w-10 place-items-center rounded-lg text-slate-700 hover:bg-pearl-200"
           >
             <Menu className="h-5 w-5" />
           </button>
-          <span className="font-display font-bold text-slate-900">Dashboard</span>
+          <span className="font-display font-bold text-slate-900">{t('dash.title')}</span>
+          <LanguageToggle className="ml-auto" />
         </div>
 
         <main className="flex-1 overflow-x-hidden p-5 sm:p-8">{children}</main>

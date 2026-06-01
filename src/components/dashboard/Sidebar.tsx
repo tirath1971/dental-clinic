@@ -9,14 +9,15 @@ import {
 } from 'lucide-react';
 import { Logo } from '@/components/ui/Logo';
 import { useAuth } from '@/hooks/useAuth';
+import { useI18n } from '@/i18n/context';
 import { cn } from '@/lib/cn';
 
 const NAV = [
-  { icon: LayoutDashboard, label: 'Overview', active: true },
-  { icon: CalendarDays, label: 'Appointments', active: false },
-  { icon: Users, label: 'Patients', active: false },
-  { icon: Stethoscope, label: 'Dentists', active: false },
-  { icon: Settings, label: 'Settings', active: false },
+  { icon: LayoutDashboard, key: 'side.overview', active: true },
+  { icon: CalendarDays, key: 'side.appointments', active: false },
+  { icon: Users, key: 'side.patients', active: false },
+  { icon: Stethoscope, key: 'side.dentists', active: false },
+  { icon: Settings, key: 'side.settings', active: false },
 ];
 
 interface SidebarProps {
@@ -27,6 +28,7 @@ interface SidebarProps {
 
 export function Sidebar({ open, onClose }: SidebarProps) {
   const { session, logout } = useAuth();
+  const { t } = useI18n();
   const navigate = useNavigate();
 
   function handleSignOut() {
@@ -40,7 +42,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       {open && (
         <button
           type="button"
-          aria-label="Close navigation"
+          aria-label={t('side.closeNav')}
           onClick={onClose}
           className="fixed inset-0 z-30 bg-slate-900/30 backdrop-blur-sm lg:hidden"
         />
@@ -54,15 +56,15 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         aria-label="Dashboard navigation"
       >
         <div className="flex h-16 items-center border-b border-pearl-300 px-5">
-          <Link to="/" aria-label="Back to website">
+          <Link to="/" aria-label={t('common.backToWebsite')}>
             <Logo />
           </Link>
         </div>
 
         <nav className="flex flex-1 flex-col gap-1 p-3">
-          {NAV.map(({ icon: Icon, label, active }) => (
+          {NAV.map(({ icon: Icon, key, active }) => (
             <button
-              key={label}
+              key={key}
               type="button"
               aria-current={active ? 'page' : undefined}
               className={cn(
@@ -73,10 +75,10 @@ export function Sidebar({ open, onClose }: SidebarProps) {
               )}
             >
               <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
-              {label}
+              {t(key)}
               {!active && (
                 <span className="ml-auto text-[10px] font-semibold uppercase tracking-wide text-slate-300">
-                  Soon
+                  {t('side.soon')}
                 </span>
               )}
             </button>
@@ -93,7 +95,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                 <p className="truncate text-sm font-medium text-slate-900">
                   {session.email}
                 </p>
-                <p className="text-xs text-slate-400">Signed in</p>
+                <p className="text-xs text-slate-400">{t('side.signedIn')}</p>
               </div>
             </div>
           )}
@@ -103,7 +105,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
             className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-rose-50 hover:text-rose-600"
           >
             <LogOut className="h-[18px] w-[18px]" aria-hidden="true" />
-            Sign out
+            {t('side.signOut')}
           </button>
         </div>
       </aside>

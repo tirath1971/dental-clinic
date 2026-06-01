@@ -1,4 +1,5 @@
 import { useId, useState } from 'react';
+import { useI18n } from '@/i18n/context';
 
 interface BeforeAfterSliderProps {
   beforeSrc: string;
@@ -18,6 +19,7 @@ export function BeforeAfterSlider({
   beforeAlt = 'Before treatment',
   afterAlt = 'After treatment',
 }: BeforeAfterSliderProps) {
+  const { t } = useI18n();
   const [pos, setPos] = useState(50);
   const labelId = useId();
 
@@ -59,15 +61,15 @@ export function BeforeAfterSlider({
 
         {/* Corner tags */}
         <span className="absolute left-3 top-3 rounded-full bg-slate-900/70 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur">
-          Before
+          {t('testimonials.before')}
         </span>
         <span className="absolute right-3 top-3 rounded-full bg-clinical-600/90 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur">
-          After
+          {t('testimonials.after')}
         </span>
 
         {/* The actual control — invisible range layered on top, full hit area. */}
         <label id={labelId} className="sr-only">
-          Drag to compare before and after treatment
+          {t('testimonials.sliderLabel')}
         </label>
         <input
           type="range"
@@ -76,12 +78,12 @@ export function BeforeAfterSlider({
           value={pos}
           onChange={(e) => setPos(Number(e.target.value))}
           aria-labelledby={labelId}
-          aria-valuetext={`After image revealed ${pos}%`}
+          aria-valuetext={t('testimonials.sliderValue', { pos })}
           className="absolute inset-0 z-20 h-full w-full cursor-ew-resize appearance-none bg-transparent opacity-0 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-clinical-500 focus-visible:ring-offset-2"
         />
       </div>
       <figcaption className="text-center text-sm text-slate-500">
-        Real-style smile transformation — drag or use arrow keys to compare.
+        {t('testimonials.sliderCaption')}
       </figcaption>
     </figure>
   );

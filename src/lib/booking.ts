@@ -41,9 +41,9 @@ export function isClosedDay(date: Date): boolean {
   return date.getDay() === 0;
 }
 
-/** Friendly human-readable date, e.g. "Mon, Jun 1, 2026". */
-export function formatLongDate(iso: string): string {
-  return fromISODate(iso).toLocaleDateString(undefined, {
+/** Friendly human-readable date, e.g. "Mon, Jun 1, 2026" (locale-aware). */
+export function formatLongDate(iso: string, locale?: string): string {
+  return fromISODate(iso).toLocaleDateString(locale, {
     weekday: 'short',
     month: 'short',
     day: 'numeric',
@@ -51,36 +51,44 @@ export function formatLongDate(iso: string): string {
   });
 }
 
-/** Convert a 24h slot label to a friendly 12h time, e.g. "09:30" -> "9:30 AM". */
-export function formatTime(slot: string): string {
+/**
+ * Format a 24h slot label for display. English uses 12h ("9:30 AM"); other
+ * locales (es) use 24h ("9:30").
+ */
+export function formatTime(slot: string, locale?: string): string {
   const [h, m] = slot.split(':').map(Number);
+  const mm = String(m).padStart(2, '0');
+  if (locale && locale.startsWith('es')) {
+    return `${h}:${mm}`;
+  }
   const period = h >= 12 ? 'PM' : 'AM';
   const hour12 = h % 12 === 0 ? 12 : h % 12;
-  return `${hour12}:${String(m).padStart(2, '0')} ${period}`;
+  return `${hour12}:${mm} ${period}`;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+\d][\d\s()-]{6,}$/;
 
+/** Field -> i18n error key (translated at render time by the component). */
 export type PatientErrors = Partial<Record<keyof PatientInfo, string>>;
 
-/** Validate the patient details form; returns a map of field -> error message. */
+/** Validate the patient details form; returns a map of field -> translation key. */
 export function validatePatient(patient: PatientInfo): PatientErrors {
   const errors: PatientErrors = {};
   if (!patient.name.trim()) {
-    errors.name = 'Please enter your full name.';
+    errors.name = 'err.nameRequired';
   } else if (patient.name.trim().length < 2) {
-    errors.name = 'Name looks too short.';
+    errors.name = 'err.nameShort';
   }
   if (!patient.email.trim()) {
-    errors.email = 'Please enter your email.';
+    errors.email = 'err.emailRequired';
   } else if (!EMAIL_RE.test(patient.email.trim())) {
-    errors.email = 'That email address looks invalid.';
+    errors.email = 'err.emailInvalid';
   }
   if (!patient.phone.trim()) {
-    errors.phone = 'Please enter a contact number.';
+    errors.phone = 'err.phoneRequired';
   } else if (!PHONE_RE.test(patient.phone.trim())) {
-    errors.phone = 'That phone number looks invalid.';
+    errors.phone = 'err.phoneInvalid';
   }
   return errors;
 }

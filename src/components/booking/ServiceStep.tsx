@@ -1,6 +1,7 @@
 import { Check, Clock } from 'lucide-react';
 import { ServiceIcon3D } from '@/components/icons/ServiceIcon3D';
 import { SERVICES } from '@/data/seed';
+import { useI18n } from '@/i18n/context';
 import { cn } from '@/lib/cn';
 
 interface ServiceStepProps {
@@ -9,10 +10,11 @@ interface ServiceStepProps {
 }
 
 export function ServiceStep({ value, onSelect }: ServiceStepProps) {
+  const { t } = useI18n();
   return (
     <fieldset className="flex flex-col gap-5">
       <legend className="text-xl font-bold text-slate-900">
-        Which treatment do you need?
+        {t('step.service.title')}
       </legend>
       <div className="grid gap-3 sm:grid-cols-2">
         {SERVICES.map((service) => {
@@ -33,13 +35,15 @@ export function ServiceStep({ value, onSelect }: ServiceStepProps) {
             >
               <ServiceIcon3D icon={service.icon} className="h-14 w-14 shrink-0" />
               <span className="flex flex-col gap-1">
-                <span className="font-semibold text-slate-900">{service.name}</span>
+                <span className="font-semibold text-slate-900">
+                  {t(`services.${service.icon}.name`)}
+                </span>
                 <span className="text-sm leading-snug text-slate-500">
-                  {service.description}
+                  {t(`services.${service.icon}.desc`)}
                 </span>
                 <span className="mt-1 inline-flex items-center gap-1.5 text-xs font-medium text-clinical-600">
                   <Clock className="h-3.5 w-3.5" aria-hidden="true" />
-                  {service.durationMins} min · from ${service.fromPrice}
+                  {t('services.meta', { mins: service.durationMins, price: service.fromPrice })}
                 </span>
               </span>
               {selected && (
