@@ -1,10 +1,22 @@
 import { useEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { PublicLayout } from '@/components/layout/PublicLayout';
 import { HomePage } from '@/pages/HomePage';
 import { BookingPage } from '@/pages/BookingPage';
 import { DashboardPage } from '@/pages/DashboardPage';
+import { LoginPage } from '@/pages/LoginPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
+import { useAuth } from '@/hooks/useAuth';
+
+/** Redirects to the mock login screen when there's no staff session. */
+function RequireAuth({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated } = useAuth();
+  const location = useLocation();
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+  }
+  return <>{children}</>;
+}
 
 /** Scroll to top on route change, or to the hash target when one is present. */
 function ScrollManager() {
@@ -32,8 +44,16 @@ export default function App() {
           <Route path="/book" element={<BookingPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
-        {/* Dashboard has its own full-screen layout (no public navbar/footer). */}
-        <Route path="/dashboard" element={<DashboardPage />} />
+        {/* Mock staff login + auth-gated dashboard (own full-screen layout). */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <RequireAuth>
+              <DashboardPage />
+            </RequireAuth>
+          }
+        />
       </Routes>
     </>
   );

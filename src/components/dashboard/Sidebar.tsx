@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   CalendarDays,
   LayoutDashboard,
@@ -8,6 +8,7 @@ import {
   Users,
 } from 'lucide-react';
 import { Logo } from '@/components/ui/Logo';
+import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/cn';
 
 const NAV = [
@@ -25,6 +26,14 @@ interface SidebarProps {
 }
 
 export function Sidebar({ open, onClose }: SidebarProps) {
+  const { session, logout } = useAuth();
+  const navigate = useNavigate();
+
+  function handleSignOut() {
+    logout();
+    navigate('/login', { replace: true });
+  }
+
   return (
     <>
       {/* Mobile overlay */}
@@ -75,13 +84,27 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         </nav>
 
         <div className="border-t border-pearl-300 p-3">
-          <Link
-            to="/"
-            className="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-pearl-200 hover:text-slate-900"
+          {session && (
+            <div className="mb-2 flex items-center gap-3 rounded-xl bg-pearl-100 px-3.5 py-2.5">
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-clinical-500 to-clinical-700 text-xs font-bold uppercase text-white">
+                {session.email.charAt(0)}
+              </span>
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium text-slate-900">
+                  {session.email}
+                </p>
+                <p className="text-xs text-slate-400">Signed in</p>
+              </div>
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={handleSignOut}
+            className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-rose-50 hover:text-rose-600"
           >
             <LogOut className="h-[18px] w-[18px]" aria-hidden="true" />
-            Exit to site
-          </Link>
+            Sign out
+          </button>
         </div>
       </aside>
     </>
