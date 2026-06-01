@@ -15,3 +15,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+
+# Dropped-in reference/instruction docs
+CLAUDE (1).md
+SKILL (2).md
