@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Award } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { asset } from '@/lib/asset';
 import type { Doctor } from '@/types';
 
 const item = {
@@ -15,7 +16,7 @@ export function DoctorCard({ doctor }: { doctor: Doctor }) {
       <Card interactive className="group flex h-full flex-col overflow-hidden">
         <div className="relative aspect-[4/5] overflow-hidden">
           <img
-            src={doctor.photo}
+            src={asset(doctor.photo)}
             alt={`Portrait of ${doctor.name}`}
             loading="lazy"
             className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"

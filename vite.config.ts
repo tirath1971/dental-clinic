@@ -4,6 +4,9 @@ import path from 'node:path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // Served from a GitHub Pages project site at /dental-clinic/.
+  // Override with BASE_PATH=/ for root deploys (Vercel, custom domain, etc.).
+  base: process.env.BASE_PATH ?? '/dental-clinic/',
   plugins: [react()],
   resolve: {
     alias: {

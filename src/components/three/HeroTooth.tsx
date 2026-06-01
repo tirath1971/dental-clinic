@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { asset } from '@/lib/asset';
 
 // Lazy-load the Three.js canvas so the heavy 3D chunk never blocks first paint.
 const ToothCanvas = lazy(() => import('./ToothCanvas'));
@@ -8,7 +9,7 @@ const ToothCanvas = lazy(() => import('./ToothCanvas'));
 function StaticTooth() {
   return (
     <img
-      src="/tooth-fallback.svg"
+      src={asset('/tooth-fallback.svg')}
       alt="Glossy, healthy tooth — the Shining Pearls emblem"
       className="h-full w-full select-none object-contain drop-shadow-[0_20px_45px_rgba(37,99,235,0.25)]"
       draggable={false}

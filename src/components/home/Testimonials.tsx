@@ -3,6 +3,7 @@ import { Quote, Star } from 'lucide-react';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Card } from '@/components/ui/Card';
 import { BeforeAfterSlider } from './BeforeAfterSlider';
+import { asset } from '@/lib/asset';
 import { cn } from '@/lib/cn';
 
 interface Review {
@@ -75,8 +76,8 @@ export function Testimonials() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           <BeforeAfterSlider
-            beforeSrc="/cases/case-1-before.svg"
-            afterSrc="/cases/case-1-after.svg"
+            beforeSrc={asset('/cases/case-1-before.svg')}
+            afterSrc={asset('/cases/case-1-after.svg')}
             beforeAlt="Patient smile before whitening and alignment"
             afterAlt="Patient smile after whitening and alignment"
           />

@@ -1,5 +1,6 @@
 import { Award, Check } from 'lucide-react';
 import { DOCTORS } from '@/data/seed';
+import { asset } from '@/lib/asset';
 import { cn } from '@/lib/cn';
 
 interface DoctorStepProps {
@@ -31,7 +32,7 @@ export function DoctorStep({ value, onSelect }: DoctorStepProps) {
               )}
             >
               <img
-                src={doctor.photo}
+                src={asset(doctor.photo)}
                 alt=""
                 className="h-16 w-16 shrink-0 rounded-xl object-cover"
                 loading="lazy"
