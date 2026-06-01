@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Smile before treatment">
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#CBD5E1" />
+      <stop offset="100%" stop-color="#94A3B8" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#b)" />
+  <rect x="250" y="230" width="300" height="150" rx="24" fill="#E2D6B8" />
+  <g fill="#D9C9A0">
+    <rect x="270" y="250" width="50" height="110" rx="8" />
+    <rect x="330" y="250" width="50" height="110" rx="8" />
+    <rect x="390" y="250" width="50" height="110" rx="8" />
+    <rect x="450" y="250" width="60" height="110" rx="8" transform="rotate(6 480 300)" />
+  </g>
+  <text x="400" y="520" text-anchor="middle" font-family="Sora, sans-serif" font-size="40" font-weight="700" fill="#475569">BEFORE</text>
+</svg>
